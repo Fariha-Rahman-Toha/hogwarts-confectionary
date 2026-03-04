@@ -1,4 +1,5 @@
 Hogwarts Confectionery — Game Guide
+
 Hogwarts Confectionery is a magical twist on the classic Mastermind puzzle game, dressed up in the robes of the wizarding world. Your goal is to decode a secret cake recipe hidden by Dumbledore himself — guided only by a cryptic riddle and the colour-coded clues your guesses reveal. Think less Purble Place, more Potions class meets Honeydukes.
 The Objective
 Decode the 4-ingredient secret cake recipe before you run out of attempts. Each recipe has one ingredient per slot — Base Layer, Flavour, Frosting, and Topping.
