@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hogwarts Confectionery — Magical Cake Maker</title>
+<link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;600;900&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="crest">🧪🧁🔮</div>
+    <h1>Hogwarts Confectionery</h1>
+    <div class="subtitle">Brew the Perfect Magical Cake</div>
+    <div class="gold-divider"></div>
+  </header>
+
+  <div class="stats-bar">
+    <div class="stat-stone">
+      <div class="stat-label">House Points</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+    <div class="stat-stone">
+      <div class="stat-label">Round</div>
+      <div class="stat-value" id="round">1</div>
+    </div>
+    <div class="stat-stone">
+      <div class="stat-label">Best</div>
+      <div class="stat-value" id="best">0</div>
+    </div>
+  </div>
+
+  <div class="game-container">
+    <!-- Recipe panel -->
+    <div class="recipe-panel">
+      <div class="panel-title">📜 The Recipe</div>
+      <div style="text-align:center;margin-bottom:10px;font-size:0.7rem;color:var(--parchment-dark);font-style:italic;">
+        Guess the secret combination! Use the clues below after each attempt.
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="font-family:'Cinzel',serif;font-size:0.6rem;color:var(--gold-dark);letter-spacing:1px;margin-bottom:6px;">CLUE LEGEND:</div>
+        <div style="display:flex;flex-direction:column;gap:4px;font-size:0.7rem;color:var(--parchment-dark);">
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#4a8;display:inline-block;box-shadow:0 0 6px #4a8;"></span> Correct ingredient & position</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:var(--gold);display:inline-block;box-shadow:0 0 6px var(--gold);"></span> Right ingredient, wrong slot</div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#444;display:inline-block;"></span> Not in the recipe</div>
+        </div>
+      </div>
+      <div class="gold-divider" style="width:100%;margin:10px 0;"></div>
+      <div style="margin-bottom:10px;">
+        <div style="font-family:'Cinzel',serif;font-size:0.6rem;color:var(--gold-dark);letter-spacing:1px;margin-bottom:8px;">🪄 DUMBLEDORE'S RIDDLE:</div>
+        <div id="riddleBox" class="riddle-box"></div>
+      </div>
+      <div class="gold-divider" style="width:100%;margin:10px 0;"></div>
+      <div class="attempts" id="attempts"></div>
+      <div style="margin-top:12px;">
+        <div style="font-family:'Cinzel',serif;font-size:0.6rem;color:var(--gold-dark);letter-spacing:1px;margin-bottom:6px;">POTION LOG:</div>
+        <div class="history-panel" id="history"></div>
+      </div>
+      <div class="gold-divider" style="width:100%;margin:12px 0;"></div>
+      <div>
+        <div style="font-family:'Cinzel',serif;font-size:0.6rem;color:var(--gold-dark);letter-spacing:1px;margin-bottom:6px;">🔍 ENCHANTED CLUE SCROLL:</div>
+        <div id="clueLog" style="display:flex;flex-direction:column;gap:5px;max-height:200px;overflow-y:auto;"></div>
+        <div id="clueEmpty" style="font-size:0.7rem;color:rgba(201,168,76,0.3);font-style:italic;text-align:center;padding:8px;">
+          Cast your first spell to reveal clues...
+        </div>
+      </div>
+    </div>
+
+    <!-- Baking board -->
+    <div class="baking-board">
+      <div class="board-title">🏰 The Baking Cauldron</div>
+
+      <div class="cake-builder">
+        <div style="font-family:'Cinzel',serif;font-size:0.65rem;color:var(--gold-dark);letter-spacing:1px;margin-bottom:10px;">YOUR POTION SLOTS (click to clear)</div>
+        <div class="cake-slots" id="cakeSlots"></div>
+        <button class="btn-submit" id="submitBtn" onclick="submitGuess()" disabled>
+          ✨ Cast the Spell ✨
+        </button>
+        <div class="feedback" id="feedback"></div>
+      </div>
+
+      <div class="shelves-section">
+        <div style="font-family:'Cinzel',serif;font-size:0.65rem;color:var(--gold-dark);letter-spacing:1px;margin-bottom:10px;">🧪 INGREDIENT SHELF — Click to add to your cake</div>
+        <div class="shelf">
+          <div class="shelf-label">🎂 Base Layer</div>
+          <div class="shelf-items" id="shelf-base"></div>
+        </div>
+        <div class="shelf">
+          <div class="shelf-label">🍫 Flavour</div>
+          <div class="shelf-items" id="shelf-flavour"></div>
+        </div>
+        <div class="shelf">
+          <div class="shelf-label">🍰 Frosting</div>
+          <div class="shelf-items" id="shelf-frosting"></div>
+        </div>
+        <div class="shelf">
+          <div class="shelf-label">✨ Topping</div>
+          <div class="shelf-items" id="shelf-topping"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Win Screen -->
+<div id="winScreen" class="screen-overlay" style="display:none;">
+  <div class="screen-card">
+    <div class="sparkles" id="sparkles"></div>
+    <span class="screen-emoji">🏆</span>
+    <div class="screen-title">Magnificent!</div>
+    <div class="screen-subtitle" id="winMsg">You have mastered the art of magical confectionery. Professor Dumbledore is most impressed.</div>
+    <div class="screen-score" id="winScore"></div>
+    <button class="btn-submit" onclick="nextRound()">🎂 Next Challenge →</button>
+  </div>
+</div>
+
+<!-- Lose Screen -->
+<div id="loseScreen" class="screen-overlay" style="display:none;">
+  <div class="screen-card">
+    <span class="screen-emoji">💀</span>
+    <div class="screen-title">Expelliarmus!</div>
+    <div class="screen-subtitle" id="loseMsg">The cake collapsed. Even the house elves look disappointed.</div>
+    <div class="screen-score" id="loseAnswer"></div>
+    <button class="btn-submit" onclick="resetGame()">🔮 Try Again</button>
+  </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
